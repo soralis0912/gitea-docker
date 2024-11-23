@@ -1,13 +1,11 @@
+---
 version: "3"
-
 networks:
   gitea:
     external: false
-
 volumes:
-  gitea:
-  postgres:
-
+  gitea: null
+  postgres: null
 services:
   server:
     image: gitea/gitea:1.22.3
@@ -29,10 +27,12 @@ services:
       - /etc/localtime:/etc/localtime:ro
     depends_on:
       - db
+    env_file:
+      - .env
     labels:
-      - "tsdproxy.enable=true"
-      - "tsdproxy.name=gitea"
-      - "tsdproxy.container_port=3000"
+      - tsdproxy.enable=true
+      - tsdproxy.name=gitea
+      - tsdproxy.container_port=3000
   db:
     image: postgres:14
     restart: always
@@ -44,3 +44,13 @@ services:
       - gitea
     volumes:
       - postgres:/var/lib/postgresql/data
+    runner:
+      build:
+        context: ./act_runner
+        dockerfile: Dockerfile
+      container_name: runner
+      restart: always
+      networks:
+        - gitea
+      env_file:
+        - .env
