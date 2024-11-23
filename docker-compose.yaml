@@ -46,13 +46,13 @@ services:
       - gitea
     volumes:
       - postgres:/var/lib/postgresql/data
-    runner:
-      build:
-        context: ./act_runner
-        dockerfile: Dockerfile
-      container_name: runner
-      restart: always
-      networks:
-        - gitea
-      env_file:
-        - .env
+  runner:
+    build:
+      context: ./act_runner
+      dockerfile: Dockerfile
+    container_name: runner
+    restart: always
+    networks:
+      - gitea
+    env_file:
+      - .env
