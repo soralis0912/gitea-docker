@@ -3,8 +3,9 @@ volumes:
   postgres: null
 services:
   gitea:
+    hostname: gitea
     image: gitea/gitea:1.22.3
-    network_mode: service:tailscale
+    network_mode: service:tailcale
     environment:
       - USER_UID=1000
       - USER_GID=1000
@@ -23,6 +24,7 @@ services:
     env_file:
       - .env
   db:
+    hostname: db
     image: postgres:14
     restart: always
     environment:
@@ -32,6 +34,7 @@ services:
     volumes:
       - postgres:/var/lib/postgresql/data
   runner:
+    hostname: runner
     build:
       context: ./act_runner
       dockerfile: Dockerfile
@@ -41,8 +44,8 @@ services:
     env_file:
       - .env
   tailscale:
-    image: tailscale/tailscale:latest
     hostname: tailscale
+    image: tailscale/tailscale:latest
     environment:
       - TS_AUTH_ONCE=true
       - TS_STATE_DIR=/var/lib/tailscale
