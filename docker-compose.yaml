@@ -4,7 +4,7 @@ volumes:
 services:
   gitea:
     hostname: gitea
-    image: gitea/gitea:1.22.3
+    image: gitea/gitea:1.22.3-rootless
     environment:
       - USER_UID=1000
       - USER_GID=1000
