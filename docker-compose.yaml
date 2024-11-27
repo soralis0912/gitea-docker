@@ -4,6 +4,7 @@ volumes:
 services:
   gitea:
     image: gitea/gitea:1.22.3
+    network_mode: service:tailscale
     environment:
       - USER_UID=1000
       - USER_GID=1000
@@ -21,8 +22,6 @@ services:
       - db
     env_file:
       - .env
-    networks:
-      - tailscale
   db:
     image: postgres:14
     restart: always
@@ -43,6 +42,7 @@ services:
       - .env
   tailscale:
     image: tailscale/tailscale:latest
+    hostname: tailscale
     environment:
       - TS_AUTH_ONCE=true
       - TS_STATE_DIR=/var/lib/tailscale
@@ -56,9 +56,3 @@ services:
       - net_admin
       - sys_module
     restart: unless-stopped
-    networks:
-      - tailscale
-networks:
-  tailscale:
-    driver: bridge
-    internal: true
