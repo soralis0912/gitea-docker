@@ -58,3 +58,6 @@ services:
     restart: unless-stopped
     networks:
       - tailscale
+networks:
+  frontend:
+    driver: bridge
