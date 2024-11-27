@@ -24,7 +24,6 @@ services:
     env_file:
       - .env
   db:
-    hostname: db
     image: postgres:14
     restart: always
     environment:
@@ -34,7 +33,7 @@ services:
     volumes:
       - postgres:/var/lib/postgresql/data
   runner:
-    hostname: runner
+    network_mode: service:gitea
     build:
       context: ./act_runner
       dockerfile: Dockerfile
@@ -44,7 +43,7 @@ services:
     env_file:
       - .env
   tailscale:
-    hostname: tailscale
+    network_mode: service:gitea
     image: tailscale/tailscale:latest
     environment:
       - TS_AUTH_ONCE=true
