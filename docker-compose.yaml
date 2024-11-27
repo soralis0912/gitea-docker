@@ -43,10 +43,8 @@ services:
       - .env
   tailscale:
     image: tailscale/tailscale:latest
-    hostname: gitea
     environment:
       - TS_AUTH_ONCE=true
-      - TS_SERVE_CONFIG=/config/server.json
       - TS_STATE_DIR=/var/lib/tailscale
     volumes:
       - tailscale_state:/var/lib/tailscale
@@ -58,3 +56,4 @@ services:
       - net_admin
       - sys_module
     restart: unless-stopped
+    #command: sh -c "tailscale serve --bg --tcp 80 tcp://localhost:3000 && tailscale serve --bg --tcp 22 tcp://localhost:22"
