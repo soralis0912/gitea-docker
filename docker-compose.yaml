@@ -21,6 +21,8 @@ services:
       - db
     env_file:
       - .env
+    networks:
+      - tailscale
   db:
     image: postgres:14
     restart: always
@@ -54,4 +56,5 @@ services:
       - net_admin
       - sys_module
     restart: unless-stopped
-    #command: sh -c "tailscale serve --bg --tcp 80 tcp://localhost:3000 && tailscale serve --bg --tcp 22 tcp://localhost:22"
+    networks:
+      - tailscale
