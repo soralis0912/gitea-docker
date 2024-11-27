@@ -1,6 +1,10 @@
 volumes:
-  gitea: null
-  postgres: null
+  gitea-data:
+    driver: local
+  gitea-config:
+    driver: local
+  postgres:
+    driver: local
 services:
   gitea:
     hostname: gitea
@@ -15,7 +19,8 @@ services:
       - GITEA__database__PASSWD=gitea
     restart: always
     volumes:
-      - gitea:/data
+      - gitea-data:/var/lib/gitea
+      - gitea-config:/etc/gitea
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     depends_on:
