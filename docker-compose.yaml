@@ -1,11 +1,5 @@
-networks:
-  gitea:
-    external: false
-volumes:
-  gitea: null
-  postgres: null
 services:
-  server:
+  gitea:
     image: gitea/gitea:1.24
     environment:
       - USER_UID=1000
@@ -16,8 +10,7 @@ services:
       - GITEA__database__USER=gitea
       - GITEA__database__PASSWD=gitea
     restart: always
-    networks:
-      - gitea
+    network_mode: "service:tailscale"
     volumes:
       - ./gitea:/data
       - /etc/timezone:/etc/timezone:ro
@@ -33,17 +26,13 @@ services:
       - POSTGRES_USER=gitea
       - POSTGRES_PASSWORD=gitea
       - POSTGRES_DB=gitea
-    networks:
-      - gitea
     volumes:
-      - ./postgres:/var/lib/postgresql/data
+      - ./postgres/data:/var/lib/postgresql/data
   runner:
     build:
       context: ./act_runner
       dockerfile: Dockerfile
     restart: always
-    networks:
-      - gitea
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     env_file:
