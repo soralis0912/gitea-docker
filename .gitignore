@@ -1,1 +1,5 @@
 .env
+gitea/
+postgres/
+act_runner/
+tailscale/
